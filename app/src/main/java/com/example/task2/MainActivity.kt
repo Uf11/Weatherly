@@ -37,7 +37,7 @@ class MainActivity : ComponentActivity() {
                     modifier = Modifier.fillMaxSize(),
                     color = MaterialTheme.colorScheme.background
                 ) {
-                    Page1()
+                    Main()
                 }
             }
         }
@@ -45,7 +45,7 @@ class MainActivity : ComponentActivity() {
 }
 
 @Composable
-fun WeatherBox(imgRes: Int){
+private fun WeatherBox(imgRes: Int){
     Box(modifier = Modifier.size(width = 1000.dp, height = 650.dp)){
         Image(painter = painterResource(id = imgRes),
                 contentDescription = "Usman",
@@ -54,12 +54,12 @@ fun WeatherBox(imgRes: Int){
             )
         Column {
             HeaderRow()
-            statRow()
+            StatRow()
         }
     }
 }
 @Composable
-fun HeaderRow(){
+private fun HeaderRow(){
     Row (
         horizontalArrangement = Arrangement.SpaceBetween,
         modifier = Modifier
@@ -101,7 +101,7 @@ fun HeaderRow(){
     }
 }
 @Composable
-fun statRow(){
+private fun StatRow(){
     Row(
         horizontalArrangement = Arrangement.SpaceBetween,
         modifier = Modifier
@@ -178,7 +178,7 @@ private fun WeatherCard(
 }
 
 @Composable
-fun WeatherCardRow()
+private fun WeatherCardRow()
 {
     Row (modifier = Modifier
         .fillMaxWidth(1f)
@@ -190,10 +190,6 @@ fun WeatherCardRow()
         }
     }
 }
-
-
-// Second Page
-
 
 @Composable
 fun Page1() {
@@ -209,4 +205,168 @@ fun Page1Preview(){
     Task2Theme {
         Page1()
     }
+}
+
+// page 2
+@Composable
+private fun HeaderRowPage2() {
+    Row(
+        horizontalArrangement = Arrangement.SpaceBetween,
+        modifier = Modifier
+            .fillMaxWidth(1f)
+    ) {
+        Row {
+            Icon(
+                painter = painterResource(id = R.drawable.ic_back),
+                contentDescription = null,
+                modifier = Modifier
+                    .size(25.dp)
+            )
+            Text(
+                text = "LOCATIONS",
+                style = TextStyle(fontSize = 20.sp),
+                modifier = Modifier
+                    .padding(start = 10.dp)
+                    .align(Alignment.CenterVertically)
+            )
+        }
+        Icon(
+            painter = painterResource(id = R.drawable.ic_dots),
+            contentDescription = null,
+            modifier = Modifier
+                .size(25.dp)
+        )
+    }
+}
+
+@Composable
+private fun TopCompPage2(){
+    Row {
+        Box(modifier = Modifier
+            .background(Color.White)
+            .size(275.dp, 275.dp)) {
+            Column(
+                modifier = Modifier
+                    .padding(20.dp)
+                    .fillMaxSize(),
+                verticalArrangement = Arrangement.SpaceBetween
+            ) {
+                HeaderRowPage2()
+                Text(
+                    text = "You are currently getting results for popular places of India",
+                    style = TextStyle(fontSize = 20.sp),
+                    modifier = Modifier.padding(top = 20.dp)
+                )
+                ElevatedButton(
+                    onClick = { /*TODO*/ }
+                ) {
+                    Text(text = "Choose Place")
+                }
+            }
+        }
+        Box(modifier = Modifier
+            .background(Color.LightGray)
+            .size(275.dp, 275.dp)) {
+            Column(
+                modifier = Modifier
+                    .fillMaxSize(),
+                verticalArrangement = Arrangement.Center
+            ) {
+                Icon(
+                    painter = painterResource(id = R.drawable.ic_plus),
+                    contentDescription = null,
+                    modifier = Modifier
+                        .size(20.dp)
+                        .align(Alignment.CenterHorizontally)
+                )
+                Text(
+                    text = "Add Place",
+                    style = TextStyle(fontSize = 20.sp),
+                    modifier = Modifier
+                        .padding(end = 10.dp, top = 20.dp)
+                        .align(Alignment.CenterHorizontally)
+                )
+            }
+        }
+    }
+}
+
+@Composable
+private fun CityCard(data : CityWeatherData, bColor: Color, cColor: Color) {
+    Box(
+        modifier = Modifier
+            .background(Color.White)
+            .fillMaxWidth(1f)
+    ) {
+        Row(
+            modifier = Modifier
+                .fillMaxWidth(1f)
+                .background(bColor)
+                .padding(vertical = 25.dp, horizontal = 20.dp),
+            horizontalArrangement = Arrangement.SpaceBetween
+        ) {
+            Column {
+                Text(
+                    text = data.city,
+                    style = TextStyle(fontSize = 25.sp)
+                )
+                Text(
+                    text = data.humidity,
+                    style = TextStyle(fontSize = 20.sp, color = Color.LightGray),
+                    modifier = Modifier.padding(top = 10.dp)
+                )
+            }
+            Text(
+                text = data.temperature + ", " + data.weatherCondition,
+                style = TextStyle(fontSize = 20.sp, color = cColor)
+            )
+        }
+
+    }
+}
+
+data class CityWeatherData(
+    val city: String,
+    val temperature: String,
+    val weatherCondition: String,
+    val humidity: String
+)
+val CityweatherData = listOf(
+    CityWeatherData("Mumbai", "28", "Sunny", "Humidity: 51%"),
+    CityWeatherData("Indore", "24", "Smoke", "Humidity: 35%"),
+    CityWeatherData("Bhopal", "21", "Clear", "Humidity: 35%")
+)
+
+@Composable
+private fun CityCardsColumn() {
+    Column (modifier = Modifier
+        .fillMaxHeight(1f)
+        .background(Color.White)){
+        for ((index, city) in CityweatherData.withIndex()) {
+            val bgColor = if (index == 0) Color.Blue else Color.White
+            val textColor = if (index == 0) Color.Magenta else Color.Blue
+            CityCard(data = city, bColor = bgColor, cColor = textColor)
+        }
+    }
+}
+
+@Composable
+fun Page2() {
+    Column {
+        TopCompPage2()
+        CityCardsColumn()
+    }
+}
+@Preview
+@Composable
+fun Page2Preview() {
+    Task2Theme {
+        Page2()
+    }
+}
+
+@Composable
+fun Main(){
+    Page1()
+    Page2()
 }
