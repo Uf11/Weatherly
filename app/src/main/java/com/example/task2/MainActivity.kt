@@ -17,6 +17,8 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.compose.ui.text.TextStyle
+import androidx.compose.ui.text.font.FontWeight
+import androidx.compose.ui.text.style.TextAlign
 import com.example.task2.ui.theme.Task2Theme
 
 @Composable
@@ -51,8 +53,27 @@ fun Task1Problem1Preview(){
 }
 
 @Composable
-fun Task1Problem2(){
-
+fun Task1Problem2() {
+    Column(
+        modifier = Modifier
+            .fillMaxWidth()
+            .fillMaxHeight()
+            .background(Color.White),
+        verticalArrangement = Arrangement.Center,
+        horizontalAlignment = Alignment.CenterHorizontally
+    ) {
+        Image(painter = painterResource(R.drawable.ic_taskcompleted),
+            contentDescription = null)
+        Text(
+            text = "All tasks completed",
+            modifier = Modifier.padding(top = 24.dp, bottom = 8.dp),
+            fontWeight = FontWeight.Bold
+        )
+        Text(
+            text = "Nice work!",
+            fontSize = 16.sp
+        )
+    }
 }
 
 @Preview
@@ -62,6 +83,76 @@ fun Task1Problem2Preview(){
         Task1Problem2()
     }
 }
+
+@Composable
+fun Task1Problem3() {
+    Column(Modifier.fillMaxWidth()) {
+        Row(Modifier.weight(1f)) {
+            ComposableInfoCard(
+                title = "Text composable",
+                description = "Displays text and follows the recommended Material Design guidelines.",
+                backgroundColor = Color(0xFFEADDFF),
+                modifier = Modifier.weight(1f)
+            )
+            ComposableInfoCard(
+                title = "Image composable",
+                description = "Creates a composable that lays out and draws a given Painter class object.",
+                backgroundColor = Color(0xFFD0BCFF),
+                modifier = Modifier.weight(1f)
+            )
+        }
+        Row(Modifier.weight(1f)) {
+            ComposableInfoCard(
+                title = "Row composable",
+                description = "A layout composable that places its children in a horizontal sequence.",
+                backgroundColor = Color(0xFFB69DF8),
+                modifier = Modifier.weight(1f)
+            )
+            ComposableInfoCard(
+                title = "Column composable",
+                description = "A layout composable that places its children in a vertical sequence.",
+                backgroundColor = Color(0xFFF6EDFF),
+                modifier = Modifier.weight(1f)
+            )
+        }
+    }
+}
+
+@Composable
+private fun ComposableInfoCard(
+    title: String,
+    description: String,
+    backgroundColor: Color,
+    modifier: Modifier = Modifier
+) {
+    Column(
+        modifier = modifier
+            .fillMaxSize()
+            .background(backgroundColor)
+            .padding(16.dp),
+        verticalArrangement = Arrangement.Center,
+        horizontalAlignment = Alignment.CenterHorizontally
+    ) {
+        Text(
+            text = title,
+            modifier = Modifier.padding(bottom = 16.dp),
+            fontWeight = FontWeight.Bold
+        )
+        Text(
+            text = description,
+            textAlign = TextAlign.Justify
+        )
+    }
+}
+
+@Preview
+@Composable
+fun Task1Problem3Preview(){
+    Task2Theme {
+        Task1Problem3()
+    }
+}
+
 
 data class WeatherData(val day: String, val weatherIcon: Int, val temperature: String)
 val weatherData = listOf(
